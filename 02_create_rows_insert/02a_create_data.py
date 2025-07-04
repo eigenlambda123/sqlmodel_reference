@@ -26,10 +26,12 @@ def create_heroes():
     # and perform operations like adding, committing, etc.
     session = Session(engine)
 
-    session.add(hero_1)
-    session.add(hero_2)
-    session.add(hero_3)
+    with Session(engine) as session:
+        session.add(hero_1)
+        session.add(hero_2)
+        session.add(hero_3)
 
-    session.commit()
+        session.commit()
+
 
 create_heroes()
