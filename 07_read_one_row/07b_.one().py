@@ -52,6 +52,14 @@ def select_heroes():
         print("Hero:", hero)
 
 
+# def select_heroes():
+#     with Session(engine) as session:
+#         # More compact version of select_heroes using .one()
+#         hero = session.exec(select(Hero).where(Hero.name == "Deadpond")).one()
+#         print("Hero:", hero)
+
+
+
 def main():
     create_db_and_tables()
     create_heroes()
