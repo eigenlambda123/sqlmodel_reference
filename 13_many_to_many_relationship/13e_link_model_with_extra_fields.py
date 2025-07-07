@@ -54,6 +54,12 @@ def create_db_and_tables():
 
 
 def create_heroes():
+    """
+    Create heroes and teams, and establish many-to-many relationships
+    This function creates instances of Hero and Team models,
+    establishes many-to-many relationships using the HeroTeamLink model.
+    It also demonstrates how to store additional fields (like `is_training`) in the link model.
+    """
     with Session(engine) as session:
         team_preventers = Team(name="Preventers", headquarters="Sharp Tower")
         team_z_force = Team(name="Z-Force", headquarters="Sister Margaret's Bar")
@@ -100,12 +106,22 @@ def create_heroes():
 
 
 def update_heroes():
+    """
+    Update the teams of a hero and demonstrate adding and removing teams
+    This function retrieves a hero and a team from the database,
+    adds a new team to the hero, and updates the training status of the hero in the team.
+    It also demonstrates how to modify the training status of existing team links.
+    """
     with Session(engine) as session:
+        # Retrieve a hero and a team from the database,
+        # then create a new HeroTeamLink to associate them.
         hero_spider_boy = session.exec(
             select(Hero).where(Hero.name == "Spider-Boy")
         ).one()
         team_z_force = session.exec(select(Team).where(Team.name == "Z-Force")).one()
 
+        # Demonstrates how to add a new team to a hero,
+        # update the is_training status for an existing relationship,
         spider_boy_z_force_link = HeroTeamLink(
             team=team_z_force, hero=hero_spider_boy, is_training=True
         )
@@ -113,6 +129,7 @@ def update_heroes():
         session.add(team_z_force)
         session.commit()
 
+        # print out the updated associations for verification.
         print("Updated Spider-Boy's Teams:", hero_spider_boy.team_links)
         print("Z-Force heroes:", team_z_force.hero_links)
 
